@@ -1,0 +1,21 @@
+[Unit]
+Description=Express
+# Set dependencies to other services (optional)
+#After=mongodb.service
+
+[Service]
+ExecStart=/srv/app/example-node-app/bin/www
+# WorkingDirectory=/usr/local/express
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=davyj-agileops-training
+# Change to a non-root user (optional, but recommended)
+#User=<alternate user>
+#Group=<alternate group>
+# Set environment options
+# Environment=NODE_ENV=production PORT=3000
+
+[Install]
+WantedBy=multi-user.target

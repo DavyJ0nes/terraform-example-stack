@@ -1,0 +1,18 @@
+---
+- name: Download AWS CloudWatch Logs installer
+  get_url:
+    url: "{{ aws.cloudwatch.agent_url }}"
+    dest: /tmp/awslogs-agent-setup.py
+
+- name: Install AWS CloudWatch Logs deamon
+  become: yes
+  shell: "/usr/bin/python /tmp/awslogs-agent-setup.py --non-interactive --region {{ aws.cloudwatch.region }} -c /var/awslogs/etc/aws.conf"
+  args:
+    creates: "{{ aws.cloudwatch.conf_file }}"
+
+- name: Make sure the AWS CloudWatch Logs config is present
+  become: yes
+  template:
+    src: awslogs.conf.j2
+    dest: "{{ aws.cloudwatch.conf_file }}"
+  notify: restart awslogs

@@ -1,0 +1,29 @@
+---
+
+##### USERS AND DIRECTORIES #####
+# Set up Groups
+- name: Set up deploy group
+  group:
+    name: deploy
+    state: present
+  become: yes
+
+# Set Up User
+- name: Set up deploy user
+  user:
+    name: deploy
+    comment: "Deploy User"
+    group: deploy
+    home: /srv/app
+  become: yes
+
+# Create required directories
+- name: create /srv/app
+  file:
+    path: /srv/app
+    state: directory
+    mode: 0755
+    owner: deploy
+    group: deploy
+    recurse: yes
+  become: yes

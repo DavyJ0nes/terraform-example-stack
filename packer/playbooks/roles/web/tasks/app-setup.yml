@@ -1,0 +1,40 @@
+---
+##### SET UP APPLICATION #####
+
+# Clone application code
+# Is currently hosted from a public GitHub repo
+- name: clone git repo
+  git:
+    repo: 'https://github.com/DavyJ0nes/example-node-app.git'
+    dest: '/srv/app/example-node-app'
+    force: yes
+    version: "master"
+  become: yes
+  become_user: deploy
+
+# Install npm modules
+- name: install npm modules
+  npm:
+    path: /srv/app/example-node-app
+    state: present
+  become: yes
+  become_user: deploy
+
+##### SET UP APP AS A SERVICE #####
+
+# Using an SysV script at the moment. This isn't great.
+# TODO: Find a better way to make this into a service
+#       That allows both docker testing and production deployment
+- name: create init service config file
+  template:
+    src: templates/exampleapp-init
+    dest: /etc/init.d/exampleapp
+    mode: 0751
+  become: yes
+
+- name: enable service
+  service:
+    name: exampleapp
+    state: started
+    enabled: yes
+  become: yes

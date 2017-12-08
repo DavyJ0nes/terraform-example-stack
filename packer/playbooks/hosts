@@ -1,0 +1,6 @@
+[docker-testing]
+docker-centos ansible_ssh_host=localhost ansible_ssh_port=32773
+
+[docker-testing:vars]
+ansible_ssh_user=kitchen
+ansible_ssh_private_key_file=.kitchen/docker_id_rsa

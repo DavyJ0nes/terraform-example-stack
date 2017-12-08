@@ -1,0 +1,8 @@
+---
+
+- include_vars: vars.yml
+- include: install.yml
+- include: users.yml
+- include: app-setup.yml
+- include: nginx.yml
+- include: awslogs.yml

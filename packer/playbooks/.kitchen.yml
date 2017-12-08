@@ -1,0 +1,23 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+
+provisioner:
+  name: ansible_playbook
+  hosts: localhost
+  roles_path: roles
+  require_ansible_repo: true
+  playbook: site.yml
+  ansible_extra_flags: "--extra-vars BlueGreen=blue"
+
+platforms:
+  - name: ubuntu-16.04
+
+verifer:
+  name: serverspec
+
+suites:
+  - name: default
+    run_list:
+    attributes:
